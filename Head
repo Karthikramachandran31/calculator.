@@ -1,0 +1,68 @@
+import React, { useState } from "react";
+import Sidebar from "./Sidebar";
+import SignupForm from "./SignupForm";
+import Header from "./Header";
+import Footer from "./Footer";
+
+const App = () => {
+  const [selectedComponent, setSelectedComponent] = useState("");
+
+  return (
+    <div>
+      <Header />
+      <div style={{ display: "flex", minHeight: "calc(100vh - 100px)", flexDirection: "row" }}>
+        <Sidebar onMenuClick={setSelectedComponent} />
+        <main style={{ flex: 1, padding: "20px" }}>
+          {selectedComponent === "signup" && <SignupForm />}
+          {!selectedComponent && <h2>Welcome! Select a menu item.</h2>}
+        </main>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default App;
+
+
+import React from "react";
+
+const Header = () => {
+  return (
+    <header
+      style={{
+        background: "#34495e",
+        color: "#ecf0f1",
+        padding: "10px 20px",
+        textAlign: "center",
+      }}
+    >
+      <h1>My Application</h1>
+    </header>
+  );
+};
+
+export default Header;
+
+
+
+import React from "react";
+
+const Footer = () => {
+  return (
+    <footer
+      style={{
+        background: "#34495e",
+        color: "#ecf0f1",
+        padding: "10px 20px",
+        textAlign: "center",
+        marginTop: "auto",
+      }}
+    >
+      <p>&copy; 2024 My Application. All rights reserved.</p>
+    </footer>
+  );
+};
+
+export default Footer;
+
