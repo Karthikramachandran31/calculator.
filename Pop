@@ -1,0 +1,85 @@
+button
+        style={{
+          position: "absolute",
+          top: "50%",
+          right: "20px", // Adjust as needed
+          transform: "translateY(-50%)",
+          background: "#2980b9",
+          color: "#fff",
+          border: "none",
+          padding: "8px 15px",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+        onClick={() => alert("Button Clicked!")}
+      >
+        Click Me
+      </button>
+    </header>
+  );
+};
+
+export default Header;
+Explanation:
+Positioning the Button:
+
+position: absolute: Allows the button to be positioned relative to the <header>.
+top: 50% and transform: translateY(-50%): Vertically centers the button in the header.
+right: 20px: Aligns the button to the right with some spacing.
+Styling:
+
+Adjust padding, background, and borderRadius to customize the button's appearance.
+Alternative Flexbox Approach
+If you want to use flexbox, here's how to place the button at the right in the header:
+
+Updated Header.js with Flexbox
+jsx
+कोड कॉपी करें
+import React from "react";
+
+const Header = () => {
+  return (
+    <header
+      style={{
+        background: "#34495e",
+        color: "#ecf0f1",
+        padding: "10px 20px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <h1 style={{ margin: 0 }}>My Application</h1>
+      <button
+        style={{
+          background: "#2980b9",
+          color: "#fff",
+          border: "none",
+          padding: "8px 15px",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+        onClick={() => alert("Button Clicked!")}
+      >
+        Click Me
+      </button>
+    </header>
+  );
+};
+
+export default Header;
+Explanation of Flexbox:
+display: flex:
+
+Creates a flex container for the header content.
+justify-content: space-between:
+
+Places the <h1> on the left and the button on the right.
+align-items: center:
+
+Vertically centers the items in the header.
+Output:
+Position with Absolute: The button stays fixed to the right inside the header.
+Position with Flexbox: The button is dynamically aligned to the right of the header, with the title on the left.
+Choose
+
