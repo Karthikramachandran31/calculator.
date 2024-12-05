@@ -1,0 +1,114 @@
+import React, { useState } from "react";
+import "./styles.css";
+
+// Signup Form Component
+const SignupForm = () => (
+  <div className="signup-form">
+    <h2>Create a New Account</h2>
+    <form>
+      <input type="text" placeholder="Username" required />
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+);
+
+const Dashboard = () => {
+  // State variables to control the UI
+  const [showSignup, setShowSignup] = useState(false);
+  const [jobs, setJobs] = useState([]);
+  const [newJob, setNewJob] = useState("");
+
+  // Function to handle the "Create New Job" button click
+  const handleCreateJob = () => {
+    if (newJob.trim()) {
+      setJobs([...jobs, newJob]);
+      setNewJob(""); // Clear input field after adding the job
+    }
+  };
+
+  // Function to handle menu click (to show signup form)
+  const handleMenuClick = () => {
+    setShowSignup(!showSignup); // Toggle the signup form visibility
+  };
+
+  return (
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a href="#" onClick={handleMenuClick}>
+              Component
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        {/* Header */}
+        <div className="header">
+          <h1>My Jobs</h1>
+          <div className="header-actions">
+            <button className="button" onClick={handleCreateJob}>
+              + Create New Job
+            </button>
+            <div className="profile">
+              <span className="notification"></span>
+              <span className="username">HRManager dev</span>
+              <span className="name">HRManager</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="content">
+          {/* Show Signup Form if menu clicked */}
+          {showSignup && (
+            <div className="overlay">
+              <SignupForm />
+            </div>
+          )}
+
+          {/* Job Section */}
+          <div className="job-section">
+            <input
+              type="text"
+              placeholder="Search"
+              className="search-bar"
+              value={newJob}
+              onChange={(e) => setNewJob(e.target.value)}
+            />
+            <p>No Jobs Found</p>
+            <div className="details">
+              {/* Display Created Jobs */}
+              {jobs.length > 0 ? (
+                jobs.map((job, index) => (
+                  <div key={index} className="job-card">
+                    {job}
+                  </div>
+                ))
+              ) : (
+                <p>No jobs created yet</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+export default Dashboard;
