@@ -1,0 +1,246 @@
+import React from "react";
+import "./styles.css";
+
+const Dashboard = () => {
+  return (
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a href="#">Component</a>
+          </li>
+          {/* Uncomment other links if needed */}
+          {/* <li><a href="#" id="signup-menu">SignupForm</a></li> */}
+          {/* <li><a href="#">Job Requirements</a></li> */}
+          {/* <li><a href="#" className="active">My Jobs</a></li> */}
+        </ul>
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        {/* Header */}
+        <div className="header">
+          <h1>My Jobs</h1>
+          <div className="header-actions">
+            <button className="button">+ Create New Job</button>
+            <div className="profile">
+              <span className="notification"></span>
+              <span className="username">HRManager dev</span>
+              <span className="name">HRManager</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="content">
+          {/* Tabs */}
+          <div className="tabs">
+            <button className="tab active">My Job Requirements</button>
+            <button className="btn">0</button>
+            <button className="tab">Assigned Job Requirements</button>
+            <button className="btn">1</button>
+          </div>
+
+          {/* Job Section */}
+          <div className="job-section">
+            <input type="text" placeholder="Search" className="search-bar" />
+            <p>No Jobs Found</p>
+            <div className="details"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+export default Dashboard;
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  background-color: #f8f9fa;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background: #0c3864;
+  color: #fff;
+  height: 100vh;
+  padding: 20px 10px;
+  position: fixed;
+}
+
+.sidebar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 15px;
+  display: block;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+  background: #007bff;
+}
+
+.main-content {
+  margin-left: 250px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #343a40;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.header .button {
+  background: #ffffff;
+  color: #0671fd;
+  border-color: #0671fd;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 550px;
+  font-size: 14px;
+}
+
+.header .profile {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.content {
+  padding: 10px;
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: #f6f9fc;
+  border: 1px solid #ddd;
+  padding: 10px 10px;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #f6f9fc;
+  color: #030303;
+  border-bottom-color: #0671fd;
+}
+
+.btn {
+  background-color: #0671fd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 30px;
+  height: 20px;
+  font-size: 16px;
+  margin-left: 5px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.job-section {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 5px 5px;
+  width: 30%;
+  height: 60%;
+}
+
+.job-section .search-bar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.details {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 5px 5px;
+  width: 250%;
+  height: 90%;
+  margin-left: 330px;
+  margin-bottom: 300px;
+}
+
+.footer {
+  background: #d0d1d3;
+  color: #6e7074;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 250px);
+  margin-left: 250px;
+}
