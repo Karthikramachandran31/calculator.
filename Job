@@ -1,0 +1,135 @@
+// Dashboard.jsx
+import React, { useState } from "react";
+import SignupForm from "./SignupForm"; // Import the SignupForm component
+import "./styles.css";
+
+const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState(null); // To track the active component
+  const [jobs, setJobs] = useState([]); // To store the jobs created
+  const [jobDetails, setJobDetails] = useState(""); // To track job details
+
+  const createJob = () => {
+    // Add a new job with placeholder details
+    const newJob = { id: jobs.length + 1, details: jobDetails || "No details provided" };
+    setJobs([...jobs, newJob]);
+    setJobDetails(""); // Reset job details
+  };
+
+  const openSignupForm = () => {
+    setActiveComponent("signupForm"); // Set active component to SignupForm
+  };
+
+  const closeForm = () => {
+    setActiveComponent(null); // Close the form by setting activeComponent to null
+  };
+
+  return (
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a href="#" onClick={openSignupForm}>
+              Component
+            </a>
+          </li>
+          {/* Add more menu items as needed */}
+        </ul>
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        {/* Header */}
+        <div className="header">
+          <h1>My Jobs</h1>
+          <div className="header-actions">
+            <button className="button" onClick={createJob}>
+              + Create New Job
+            </button>
+            <div className="profile">
+              <span className="notification"></span>
+              <span className="username">HRManager dev</span>
+              <span className="name">HRManager</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="content">
+          {/* Render Signup Form if activeComponent is 'signupForm' */}
+          {activeComponent === "signupForm" && (
+            <SignupForm closeForm={closeForm} />
+          )}
+
+          {/* Job Section */}
+          <div className="job-section">
+            <input
+              type="text"
+              placeholder="Enter job details"
+              className="search-bar"
+              value={jobDetails}
+              onChange={(e) => setJobDetails(e.target.value)}
+            />
+            <p>No Jobs Found</p>
+            <div className="details">
+              {jobs.map((job) => (
+                <div key={job.id} className="job-detail">
+                  <p>{job.details}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+/* Add to styles.css */
+.signup-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+button.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+export default Dashboard;
