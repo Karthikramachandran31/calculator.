@@ -1,0 +1,86 @@
+import React, { useState } from "react";
+import SignupForm from "./SignupForm"; // Import the SignupForm component
+import "./styles.css";
+
+const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState("dashboard"); // State to manage the active component
+
+  const renderContent = () => {
+    switch (activeComponent) {
+      case "dashboard":
+        return (
+          <>
+              {/* Dashboard Content */}
+             <div className="content">
+              <div className="tabs">
+                <button className="tab active">My Job Requirements</button>
+                <button className="btn">0</button>
+                <button className="tab">Assigned Job Requirements</button>
+                <button className="btn">1</button>
+              </div>
+              </div>
+              <div className="job-section">
+                <input type="text" placeholder="Search" className="search-bar" />
+                <p>No Jobs Found</p>
+                <div className="details"></div>
+              </div>
+          </>
+        );
+      case "signup":
+        return <SignupForm />; // Render the SignupForm component
+      default:
+        return <p>Page not found</p>;
+    }
+  };
+
+  return (
+    <div className="dashboard">
+        {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a href="#" onClick={() => setActiveComponent("dashboard")}>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#" onClick={() => setActiveComponent("signup")}>
+              Component
+            </a>
+         </li>
+        </ul>
+      </div>
+
+            <header className="header">
+              <h1>My Jobs</h1>
+              <div className="header-actions">
+                <button className="button">+ Create New Job</button>
+                <div className="profile">
+                  <span className="notification"></span>
+                  <span className="username">HRManager dev</span>
+                  <span className="name">HRManager</span>
+                </div>
+              </div>
+            </header>
+      {/* Main Content */}
+      <div className="main-content">{renderContent()}</div>
+       
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+export default Dashboard;
+
+
+
+
+
