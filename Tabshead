@@ -1,0 +1,133 @@
+import React, { useState } from "react";
+import SignupForm from "./SignupForm"; // Import the SignupForm component
+import "./styles.css";
+
+const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState("dashboard"); // State to manage the active component
+  const [activeTab, setActiveTab] = useState("myJobs"); // State to manage active tab
+  const [isJobFormVisible, setIsJobFormVisible] = useState(false); // State to manage job form visibility
+
+  const renderContent = () => {
+    switch (activeComponent) {
+      case "dashboard":
+        return (
+          <>
+            {/* Dashboard Content */}
+            <div className="content">
+              <div className="tabs">
+                <button
+                  className={`tab ${activeTab === "myJobs" ? "active" : ""}`}
+                  onClick={() => setActiveTab("myJobs")}
+                >
+                  My Job Requirements
+                </button>
+                <button className="btn">0</button>
+                <button
+                  className={`tab ${activeTab === "assignedJobs" ? "active" : ""}`}
+                  onClick={() => setActiveTab("assignedJobs")}
+                >
+                  Assigned Job Requirements
+                </button>
+                <button className="btn">1</button>
+              </div>
+            </div>
+            <div className="job-section">
+              <input type="text" placeholder="Search" className="search-bar" />
+              <p>No Jobs Found</p>
+              <div className="details">
+                {isJobFormVisible && (
+                  <form className="job-form">
+                    <h3>Create New Job</h3>
+                    <label>
+                      Job Title:
+                      <input type="text" name="title" />
+                    </label>
+                    <br />
+                    <label>
+                      Job Description:
+                      <textarea name="description"></textarea>
+                    </label>
+                    <br />
+                    <button type="submit">Submit</button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </>
+        );
+      case "signup":
+        return <SignupForm />; // Render the SignupForm component
+      default:
+        return <p>Page not found</p>;
+    }
+  };
+
+  const handleLinkClick = (event, component) => {
+    event.preventDefault(); // Prevent page reload
+    setActiveComponent(component);
+    setIsJobFormVisible(false); // Reset job form visibility
+  };
+
+  const handleCreateJob = () => {
+    setIsJobFormVisible(true); // Show the job form
+    setActiveTab("newJob"); // Set a new active tab for job creation
+  };
+
+  return (
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a href="#" onClick={(e) => handleLinkClick(e, "dashboard")}>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#" onClick={(e) => handleLinkClick(e, "signup")}>
+              Component
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {/* Header */}
+      <header className="header">
+        <h1>My Jobs</h1>
+        <div className="header-actions">
+          <button className="button" onClick={handleCreateJob}>
+            + Create New Job
+          </button>
+          <div className="profile">
+            <span className="notification"></span>
+            <span className="username">HRManager dev</span>
+            <span className="name">HRManager</span>
+          </div>
+        </div>
+      </header>
+
+      {/* Tabs Below Header */}
+      {isJobFormVisible && (
+        <div className="tabs">
+          <button className="tab">Job Details</button>
+          <button className="tab">Additional Settings</button>
+        </div>
+      )}
+
+      {/* Main Content */}
+      <div className="main-content">{renderContent()}</div>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+export default Dashboard;
