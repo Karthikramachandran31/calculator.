@@ -1,0 +1,107 @@
+import React, { useState } from 'react';
+import SignupForm from './SignupForm';
+import './styles.css';
+
+const Dashboard = () => {
+  const [showSignupForm, setShowSignupForm] = useState(false);
+  const [activeMenu, setActiveMenu] = useState('Component');
+  const [activeTab, setActiveTab] = useState('myJobRequirements'); // Track active tab
+  
+  const toggleSignupForm = () => {
+    setShowSignupForm(!showSignupForm);
+  };
+
+  const handleMenuClick = (menuItem) => {
+    setActiveMenu(menuItem);
+    if (menuItem === 'Component') {
+      toggleSignupForm();
+    }
+  };
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
+  return (
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a
+              href="#"
+              className={activeMenu === 'Component' ? 'active' : ''}
+              onClick={() => handleMenuClick('Component')}
+            >
+              Component
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      {/* Main Content */}
+      <div className="main-content">
+        {/* Header */}
+        <div className="header">
+          <h1>My Jobs</h1>
+          <div className="header-actions">
+            <button className="button">+ Create New Job</button>
+            <div className="profile">
+              <span className="notification"></span>
+              <span className="username">HRManager dev</span>
+              <span className="name">HRManager</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="content">
+          {/* Tabs */}
+          <div className="tabs">
+            <button
+              className={`tab ${activeTab === 'myJobRequirements' ? 'active' : ''}`}
+              onClick={() => handleTabClick('myJobRequirements')}
+            >
+              My Job Requirements
+            </button>
+            <button className="btn">0</button>
+            <button
+              className={`tab ${activeTab === 'assignedJobRequirements' ? 'active' : ''}`}
+              onClick={() => handleTabClick('assignedJobRequirements')}
+            >
+              Assigned Job Requirements
+            </button>
+            <button className="btn">1</button>
+          </div>
+
+          {/* Conditional Rendering for Tabs */}
+          <div className="job-section">
+            <input type="text" placeholder="Search" className="search-bar" />
+            {activeTab === 'myJobRequirements' && (
+              <p>No My Job Requirements Found</p>
+            )}
+            {activeTab === 'assignedJobRequirements' && (
+              <p>No Assigned Job Requirements Found</p>
+            )}
+            <div className="details"></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+
+      {/* Render SignupForm if showSignupForm is true */}
+      {showSignupForm && <SignupForm onClose={toggleSignupForm} />}
+    </div>
+  );
+};
+
+export default Dashboard;
