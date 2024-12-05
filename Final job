@@ -1,0 +1,133 @@
+import React, { useState } from "react";
+import SignupForm from "./SignupForm"; // Import the SignupForm component
+import "./styles.css";
+
+const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState("dashboard"); // State to manage the active component
+  const [activeTab, setActiveTab] = useState("myJobs"); // State to manage active tab (My Job Requirements or Assigned Job Requirements)
+  const [isJobFormVisible, setIsJobFormVisible] = useState(false); // State to manage visibility of job form
+
+  const renderContent = () => {
+    switch (activeComponent) {
+      case "dashboard":
+        return (
+          <>
+            {/* Dashboard Content */}
+            <div className="content">
+              <div className="tabs">
+                <button
+                  className={`tab ${activeTab === "myJobs" ? "active" : ""}`}
+                  onClick={() => setActiveTab("myJobs")}
+                >
+                  My Job Requirements
+                </button>
+                <button className="btn">0</button>
+                <button
+                  className={`tab ${activeTab === "assignedJobs" ? "active" : ""}`}
+                  onClick={() => setActiveTab("assignedJobs")}
+                >
+                  Assigned Job Requirements
+                </button>
+                <button className="btn">1</button>
+              </div>
+            </div>
+            <div className="job-section">
+              <input type="text" placeholder="Search" className="search-bar" />
+              <p>No Jobs Found</p>
+              <div className="details">
+                {isJobFormVisible && <JobForm />} {/* Render the JobForm if isJobFormVisible is true */}
+              </div>
+            </div>
+          </>
+        );
+      case "signup":
+        return <SignupForm />; // Render the SignupForm component
+      default:
+        return <p>Page not found</p>;
+    }
+  };
+
+  const handleLinkClick = (event, component) => {
+    event.preventDefault(); // Prevent page reload
+    setActiveComponent(component);
+  };
+
+  const handleCreateJobClick = () => {
+    setIsJobFormVisible(!isJobFormVisible); // Toggle job form visibility
+  };
+
+  return (
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a href="#" onClick={(e) => handleLinkClick(e, "dashboard")}>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#" onClick={(e) => handleLinkClick(e, "signup")}>
+              Component
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <header className="header">
+        <h1>My Jobs</h1>
+        <div className="header-actions">
+          <button className="button" onClick={handleCreateJobClick}>
+            + Create New Job
+          </button>
+          <div className="profile">
+            <span className="notification"></span>
+            <span className="username">HRManager dev</span>
+            <span className="name">HRManager</span>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="main-content">{renderContent()}</div>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+// Simple Job Form Component
+const JobForm = () => {
+  return (
+    <form className="job-form">
+      <h3>Create a New Job</h3>
+      <div>
+        <label>Job Title:</label>
+        <input type="text" placeholder="Enter Job Title" />
+      </div>
+      <div>
+        <label>Job Description:</label>
+        <textarea placeholder="Enter Job Description"></textarea>
+      </div>
+      <div>
+        <label>Job Location:</label>
+        <input type="text" placeholder="Enter Job Location" />
+      </div>
+      <div>
+        <label>Salary:</label>
+        <input type="number" placeholder="Enter Salary" />
+      </div>
+      <button type="submit" className="button">Create Job</button>
+    </form>
+  );
+};
+
+export default Dashboard;
