@@ -1,0 +1,259 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  background-color: #f8f9fa;
+  height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background: #0c3864;
+  color: #fff;
+  height: 100vh;
+  padding: 20px 10px;
+  position: fixed;
+}
+
+.sidebar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sidebar ul {
+  list-style: none;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 15px;
+  display: block;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.sidebar ul li a.active,
+.sidebar ul li a:hover {
+  background: #007bff;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 250px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #343a40;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.header .button {
+  background: #ffffff;
+  color: #0671fd;
+  border-color: #0671fd;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 550px;
+  font-size: 14px;
+}
+
+.header .profile {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.header .notification {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.content {
+  padding: 10px;
+  flex: 1;
+}
+
+/* Tabs Styles */
+.tabs {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: #f6f9fc;
+  border: 1px solid #ddd;
+  padding: 10px 10px;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  border-bottom-color: #b2c2d3;
+}
+
+.tab.active {
+  background: #f6f9fc;
+  color: #030303;
+  border-bottom-color: #0671fd;
+}
+
+.btn {
+  background-color: #0671fd;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  width: 30px;
+  height: 20px;
+  font-size: 16px;
+  margin-left: 5px;
+  margin-bottom: 1px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.job-section {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 5px 5px;
+  width: 30%;
+  height: 60%;
+  margin: 0;
+}
+
+.details {
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 0 0 5px 5px;
+  width: 250%;
+  height: 90%;
+  margin-left: 330px;
+  margin-bottom: 300px;
+}
+
+.job-section .search-bar {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Footer Styles */
+.footer {
+  background: #d0d1d3;
+  color: #6e7074;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  width: calc(100% - 250px);
+  margin-left: 250px;
+}
+
+/* Job Form Styling */
+.job-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.job-form h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.job-form div {
+  margin-bottom: 15px;
+}
+
+.job-form label {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.job-form input,
+.job-form textarea {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.job-form textarea {
+  min-height: 100px;
+}
+
+.job-form button {
+  background-color: #0671fd;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+
+.job-form button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .job-form {
+    width: 100%;
+    margin: 0;
+  }
+}
