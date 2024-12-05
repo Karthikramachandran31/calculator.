@@ -1,0 +1,32 @@
+/* Custom style for the location dropdown */
+select {
+  width: 100%; /* Make the dropdown take up the full width of the container */
+  padding: 10px; /* Add padding for better spacing */
+  margin: 5px 0; /* Add some margin between input fields */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 5px; /* Rounded corners */
+  background-color: #fff; /* White background */
+  font-size: 16px; /* Adjust font size */
+  color: #333; /* Text color */
+  outline: none; /* Remove outline on focus */
+  transition: border 0.3s ease; /* Smooth transition for focus effect */
+}
+
+/* Add a focus effect to the dropdown */
+select:focus {
+  border-color: #007bff; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Add a blue glow on focus */
+}
+
+/* Style the option list */
+select option {
+  padding: 10px; /* Add padding for options */
+  background-color: #fff; /* White background for options */
+  font-size: 16px; /* Font size for options */
+  color: #333; /* Text color for options */
+}
+
+/* Hover effect for options */
+select option:hover {
+  background-color: #f0f0f0; /* Light background on hover */
+}
