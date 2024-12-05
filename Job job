@@ -1,0 +1,161 @@
+import React, { useState } from "react";
+import SignupForm from "./SignupForm"; // Import the SignupForm component
+import "./styles.css";
+
+const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState("dashboard"); // State to manage the active component
+  const [isJobFormVisible, setJobFormVisible] = useState(false); // State to manage job form visibility
+  const [jobFormTab, setJobFormTab] = useState("jobDetails"); // State to manage active job form tab
+
+  const renderContent = () => {
+    switch (activeComponent) {
+      case "dashboard":
+        return (
+          <>
+            {/* Dashboard Content */}
+            <div className="content">
+              <div className="tabs">
+                <button className="tab active">My Job Requirements</button>
+                <button className="btn">0</button>
+                <button className="tab">Assigned Job Requirements</button>
+                <button className="btn">1</button>
+              </div>
+            </div>
+            <div className="job-section">
+              <input type="text" placeholder="Search" className="search-bar" />
+              <p>No Jobs Found</p>
+              <div className="details">
+                {isJobFormVisible && (
+                  <>
+                    {/* Job Form Tabs */}
+                    <div className="tabs">
+                      <button
+                        className={`tab ${
+                          jobFormTab === "jobDetails" ? "active" : ""
+                        }`}
+                        onClick={() => setJobFormTab("jobDetails")}
+                      >
+                        Job Details
+                      </button>
+                      <button
+                        className={`tab ${
+                          jobFormTab === "jobSettings" ? "active" : ""
+                        }`}
+                        onClick={() => setJobFormTab("jobSettings")}
+                      >
+                        Job Settings
+                      </button>
+                    </div>
+
+                    {/* Job Form */}
+                    <div className="job-form">
+                      {jobFormTab === "jobDetails" ? (
+                        <form>
+                          <h3>Job Details</h3>
+                          <div>
+                            <label>Job Title:</label>
+                            <input type="text" placeholder="Enter job title" />
+                          </div>
+                          <div>
+                            <label>Job Description:</label>
+                            <textarea placeholder="Enter job description"></textarea>
+                          </div>
+                        </form>
+                      ) : (
+                        <form>
+                          <h3>Job Settings</h3>
+                          <div>
+                            <label>Job Type:</label>
+                            <select>
+                              <option>Full-time</option>
+                              <option>Part-time</option>
+                              <option>Contract</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label>Salary Range:</label>
+                            <input
+                              type="text"
+                              placeholder="Enter salary range"
+                            />
+                          </div>
+                        </form>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        );
+      case "signup":
+        return <SignupForm />; // Render the SignupForm component
+      default:
+        return <p>Page not found</p>;
+    }
+  };
+
+  return (
+    <div className="dashboard">
+      {/* Sidebar */}
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveComponent("dashboard");
+              }}
+            >
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveComponent("signup");
+              }}
+            >
+              Component
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <header className="header">
+        <h1>My Jobs</h1>
+        <div className="header-actions">
+          <button
+            className="button"
+            onClick={() => setJobFormVisible(!isJobFormVisible)}
+          >
+            + Create New Job
+          </button>
+          <div className="profile">
+            <span className="notification"></span>
+            <span className="username">HRManager dev</span>
+            <span className="name">HRManager</span>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="main-content">{renderContent()}</div>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+export default Dashboard;
