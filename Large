@@ -1,0 +1,233 @@
+import React, { useState } from "react";
+import SignupForm from "./SignupForm"; 
+import "./styles.css";
+
+const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState("dashboard"); 
+  const [isJobFormVisible, setJobFormVisible] = useState(false); 
+  const [jobFormTab, setJobFormTab] = useState("jobDetails"); 
+  const [searchQuery, setSearchQuery] = useState(""); // New state for search input
+
+  const [jobDetails, setJobDetails] = useState({
+    title: "",
+    description: "",
+    location: "",
+    salary: "",
+  });
+
+  const handleJobDetailsChange = (e) => {
+    const { name, value } = e.target;
+    setJobDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+  const handleCreateJob = () => {
+    console.log("Job Created:", jobDetails);
+    setJobFormTab("jobSettings");
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value); // Update search query state
+  };
+
+  const renderContent = () => {
+    switch (activeComponent) {
+      case "dashboard":
+        return (
+          <>
+            <div className="content">
+              <div className="tabs">
+                <button className="tab active">My Job Requirements</button>
+                <button className="btn">0</button>
+                <button className="tab">Assigned Job Requirements</button>
+                <button className="btn">1</button>
+              </div>
+            </div>
+            <div className="job-section">
+              <input
+                type="text"
+                placeholder="Search"
+                className="search-bar"
+                value={searchQuery}
+                onChange={handleSearchChange} // Update on search input
+              />
+              {/* Display matching job title */}
+              {searchQuery &&
+                jobDetails.title
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase()) && (
+                  <div className="search-results">
+                    <p>Matching Job: {jobDetails.title}</p>
+                  </div>
+                )}
+              <p>No Jobs Found</p>
+              <div className="details">
+                {isJobFormVisible && (
+                  <>
+                    <div className="tabs">
+                      <button
+                        className={`tab ${
+                          jobFormTab === "jobDetails" ? "active" : ""
+                        }`}
+                        onClick={() => setJobFormTab("jobDetails")}
+                      >
+                        Job Details
+                      </button>
+                      <button
+                        className={`tab ${
+                          jobFormTab === "jobSettings" ? "active" : ""
+                        }`}
+                        onClick={() => setJobFormTab("jobSettings")}
+                      >
+                        Job Settings
+                      </button>
+                    </div>
+                    <div className="job-form">
+                      {jobFormTab === "jobDetails" ? (
+                        <form>
+                          <h3>Create a New Job</h3>
+                          <div>
+                            <label>Job Title:</label>
+                            <input
+                              type="text"
+                              name="title"
+                              placeholder="Enter Job Title"
+                              value={jobDetails.title}
+                              onChange={handleJobDetailsChange}
+                            />
+                          </div>
+                          <div>
+                            <label>Job Description:</label>
+                            <textarea
+                              name="description"
+                              placeholder="Enter Job Description"
+                              value={jobDetails.description}
+                              onChange={handleJobDetailsChange}
+                            ></textarea>
+                          </div>
+                          <div>
+                            <label>Location:</label>
+                            <select
+                              type="text"
+                              name="location"
+                              placeholder="Enter Job Location"
+                              value={jobDetails.location}
+                              onChange={handleJobDetailsChange}
+                            >
+                              <option value="">Select your location</option>
+                              <option value="Chennai">Chennai</option>
+                              <option value="Madurai">Madurai</option>
+                              <option value="Banglore">Banglore</option>
+                              <option value="Delhi">Delhi</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label>Salary:</label>
+                            <input
+                              type="text"
+                              name="salary"
+                              placeholder="Enter Salary"
+                              value={jobDetails.salary}
+                              onChange={handleJobDetailsChange}
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            className="button"
+                            onClick={handleCreateJob}
+                          >
+                            Create Job
+                          </button>
+                        </form>
+                      ) : (
+                        <div>
+                          <h3>Job Created</h3>
+                          <p>
+                            <strong>Job Title:</strong> {jobDetails.title || "N/A"}
+                          </p>
+                          <p>
+                            <strong>Job Description:</strong>{" "}
+                            {jobDetails.description || "N/A"}
+                          </p>
+                          <p>
+                            <strong>Location:</strong> {jobDetails.location || "N/A"}
+                          </p>
+                          <p>
+                            <strong>Salary:</strong> {jobDetails.salary || "N/A"}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </>
+        );
+      case "signup":
+        return <SignupForm />;
+      default:
+        return <p>Page not found</p>;
+    }
+  };
+
+  return (
+    <div className="dashboard">
+      <div className="sidebar">
+        <div className="logo">Recruitify</div>
+        <ul className="menu">
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveComponent("dashboard");
+              }}
+            >
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveComponent("signup");
+              }}
+            >
+              Component
+            </a>
+          </li>
+        </ul>
+      </div>
+      <header className="header">
+        <h1>My Jobs</h1>
+        <div className="header-actions">
+          <button
+            className="button"
+            onClick={() => setJobFormVisible(!isJobFormVisible)}
+          >
+            + Create New Job
+          </button>
+          <div className="profile">
+            <span className="notification"></span>
+            <span className="username">HRManager dev</span>
+            <span className="name">HRManager</span>
+          </div>
+        </div>
+      </header>
+      <div className="main-content">{renderContent()}</div>
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+export default Dashboard;
