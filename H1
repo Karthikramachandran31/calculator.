@@ -1,0 +1,150 @@
+import React from "react";
+
+const Header = () => {
+  return (
+    <header style={headerStyle}>
+      <h1>My React App</h1>
+    </header>
+  );
+};
+
+const headerStyle = {
+  backgroundColor: "#007BFF",
+  color: "#fff",
+  padding: "10px 20px",
+  textAlign: "center",
+};
+
+export default Header;
+
+
+
+
+import React from "react";
+
+const Sidebar = () => {
+  return (
+    <aside style={sidebarStyle}>
+      <ul style={menuStyle}>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+    </aside>
+  );
+};
+
+const sidebarStyle = {
+  backgroundColor: "#f8f9fa",
+  width: "200px",
+  height: "100vh",
+  position: "fixed",
+  top: "50px",
+  left: 0,
+  padding: "20px",
+  boxShadow: "2px 0 5px rgba(0,0,0,0.1)",
+};
+
+const menuStyle = {
+  listStyleType: "none",
+  padding: 0,
+};
+
+export default Sidebar;
+
+
+
+
+
+
+
+
+import React from "react";
+
+const Footer = () => {
+  return (
+    <footer style={footerStyle}>
+      <p>© 2024 My React App. All rights reserved.</p>
+    </footer>
+  );
+};
+
+const footerStyle = {
+  backgroundColor: "#007BFF",
+  color: "#fff",
+  padding: "10px 20px",
+  textAlign: "center",
+  position: "fixed",
+  bottom: 0,
+  width: "100%",
+};
+
+export default Footer;
+
+
+
+
+
+
+
+import React from "react";
+
+const Home = () => {
+  return (
+    <div style={contentStyle}>
+      <h2>Welcome to the Home Page</h2>
+      <p>This is a simple layout with a sidebar, header, and footer.</p>
+    </div>
+  );
+};
+
+const contentStyle = {
+  marginLeft: "220px", // Adjust for sidebar width
+  padding: "20px",
+  marginTop: "60px", // Adjust for header height
+};
+
+export default Home;
+
+
+
+
+
+
+import React from "react";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+
+const App = () => {
+  return (
+    <div>
+      <Header />
+      <Sidebar />
+      <Home />
+      <Footer />
+    </div>
+  );
+};
+
+export default App;
+
+
+
+
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #007BFF;
+}
+
+a:hover {
+  text-decoration: underline;
+}
