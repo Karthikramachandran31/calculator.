@@ -1,0 +1,126 @@
+// formSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  fields: {
+    name: '',
+    email: '',
+  },
+  errors: {},
+  isValid: false,
+};
+
+const formSlice = createSlice({
+  name: 'form',
+  initialState,
+  reducers: {
+    setFieldValue(state, action) {
+      const { field, value } = action.payload;
+      state.fields[field] = value;
+    },
+    validateForm(state) {
+      const errors = {};
+      if (!state.fields.name.trim()) errors.name = 'Name is required';
+      if (!state.fields.email.includes('@')) errors.email = 'Email is invalid';
+
+      state.errors = errors;
+      state.isValid = Object.keys(errors).length === 0;
+    },
+  },
+});
+
+export const { setFieldValue, validateForm } = formSlice.actions;
+export default formSlice.reducer;
+
+
+
+// store.js
+import { configureStore } from '@reduxjs/toolkit';
+import formReducer from './formSlice';
+
+const store = configureStore({
+  reducer: {
+    form: formReducer,
+  },
+});
+
+export default store;
+
+
+
+
+
+
+// FormComponent.js
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFieldValue, validateForm } from './formSlice';
+
+const FormComponent = () => {
+  const dispatch = useDispatch();
+  const { fields, errors, isValid } = useSelector((state) => state.form);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(setFieldValue({ field: name, value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(validateForm());
+    if (isValid) {
+      alert('Form submitted successfully!');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={fields.name}
+          onChange={handleChange}
+        />
+        {errors.name && <span>{errors.name}</span>}
+      </div>
+
+      <div>
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={fields.email}
+          onChange={handleChange}
+        />
+        {errors.email && <span>{errors.email}</span>}
+      </div>
+
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default FormComponent;
+
+
+
+
+
+
+// App.js
+import React from 'react';
+import { Provider } from 'react-redux';
+import store from './store';
+import FormComponent from './FormComponent';
+
+const App = () => (
+  <Provider store={store}>
+    <FormComponent />
+  </Provider>
+);
+
+export default App;
+
+
