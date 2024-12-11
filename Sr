@@ -1,0 +1,174 @@
+// src/formSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  fields: {
+    username: '',
+    password: '',
+  },
+  errors: {},
+  isValid: false,
+};
+
+const formSlice = createSlice({
+  name: 'form',
+  initialState,
+  reducers: {
+    setFieldValue(state, action) {
+      const { field, value } = action.payload;
+      state.fields[field] = value;
+    },
+    validateForm(state) {
+      const errors = {};
+      if (!state.fields.username.trim()) errors.username = 'Username is required';
+      if (!state.fields.password.trim()) errors.password = 'Password is required';
+      else if (state.fields.password.length < 6) errors.password = 'Password must be at least 6 characters long';
+
+      state.errors = errors;
+      state.isValid = Object.keys(errors).length === 0;
+    },
+  },
+});
+
+export const { setFieldValue, validateForm } = formSlice.actions;
+export default formSlice.reducer;
+
+
+
+
+// src/store.js
+import { configureStore } from '@reduxjs/toolkit';
+import formReducer from './formSlice';
+
+const store = configureStore({
+  reducer: {
+    form: formReducer,
+  },
+});
+
+export default store;
+
+
+
+
+
+
+// src/FormComponent.js
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFieldValue, validateForm } from './formSlice';
+
+const FormComponent = () => {
+  const dispatch = useDispatch();
+  const { fields, errors, isValid } = useSelector((state) => state.form);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    dispatch(setFieldValue({ field: name, value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(validateForm());
+    if (isValid) {
+      alert('Login Successful!');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Username:</label>
+        <input
+          type="text"
+          name="username"
+          value={fields.username}
+          onChange={handleChange}
+        />
+        {errors.username && <p className="error-message">{errors.username}</p>}
+      </div>
+
+      <div>
+        <label>Password:</label>
+        <input
+          type="password"
+          name="password"
+          value={fields.password}
+          onChange={handleChange}
+        />
+        {errors.password && <p className="error-message">{errors.password}</p>}
+      </div>
+
+      <button type="submit">Login</button>
+    </form>
+  );
+};
+
+export default FormComponent;
+
+
+
+/* Center the form on the page */
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f2f2f2;
+}
+
+/* Style the form container */
+form {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: center;
+}
+
+/* Form fields styling */
+form div {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Error messages styling */
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+/* Button styling */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
