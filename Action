@@ -1,0 +1,181 @@
+export const UPDATE_PROFILE = 'UPDATE_PROFILE';
+export const UPLOAD_AVATAR = 'UPLOAD_AVATAR';
+
+export const updateProfile = (profileData) => ({
+  type: UPDATE_PROFILE,
+  payload: profileData,
+});
+
+export const uploadAvatar = (avatarUrl) => ({
+  type: UPLOAD_AVATAR,
+  payload: avatarUrl,
+});
+
+
+
+import { UPDATE_PROFILE, UPLOAD_AVATAR } from './actions';
+
+const initialState = {
+  name: '',
+  email: '',
+  avatar: '',
+};
+
+const profileReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case UPDATE_PROFILE:
+      return {
+        ...state,
+        name: action.payload.name,
+        email: action.payload.email,
+      };
+    case UPLOAD_AVATAR:
+      return {
+        ...state,
+        avatar: action.payload,
+      };
+    default:
+      return state;
+  }
+};
+
+export default profileReducer;
+
+
+
+import { createStore } from 'redux';
+import profileReducer from './reducer';
+
+const store = createStore(profileReducer);
+
+export default store;
+
+
+
+
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateProfile, uploadAvatar } from './actions';
+
+const ProfileDashboard = () => {
+  const dispatch = useDispatch();
+  const profile = useSelector((state) => state);
+
+  const [name, setName] = useState(profile.name);
+  const [email, setEmail] = useState(profile.email);
+  const [avatar, setAvatar] = useState(null);
+
+  const handleProfileUpdate = () => {
+    dispatch(updateProfile({ name, email }));
+  };
+
+  const handleAvatarUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      dispatch(uploadAvatar(reader.result)); // You can upload to a server and update with the returned URL
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  return (
+    <div className="profile-dashboard">
+      <h2>User Profile Dashboard</h2>
+      <div className="profile-info">
+        <div className="avatar">
+          <img src={profile.avatar || '/default-avatar.png'} alt="avatar" />
+          <input type="file" onChange={handleAvatarUpload} />
+        </div>
+        <div className="profile-form">
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button onClick={handleProfileUpdate}>Update Profile</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProfileDashboard;
+
+
+
+
+
+.profile-dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar {
+  margin-bottom: 20px;
+}
+
+.avatar img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.profile-form input {
+  padding: 10px;
+  margin: 10px 0;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.profile-form button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.profile-form button:hover {
+  background-color: #45a049;
+}
+
+
+
+
+import React from 'react';
+import { Provider } from 'react-redux';
+import store from './store';
+import ProfileDashboard from './ProfileDashboard';
+import './styles.css';
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <ProfileDashboard />
+    </Provider>
+  );
+};
+
+export default App;
