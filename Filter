@@ -1,0 +1,225 @@
+// src/redux/filterSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  searchQuery: '',
+  selectedFilters: [],
+};
+
+const filterSlice = createSlice({
+  name: 'filter',
+  initialState,
+  reducers: {
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
+    applyFilter: (state, action) => {
+      const filter = action.payload;
+      if (state.selectedFilters.includes(filter)) {
+        state.selectedFilters = state.selectedFilters.filter(item => item !== filter);
+      } else {
+        state.selectedFilters.push(filter);
+      }
+    },
+  },
+});
+
+export const { setSearchQuery, applyFilter } = filterSlice.actions;
+export default filterSlice.reducer;
+
+
+
+
+// src/redux/store.js
+import { configureStore } from '@reduxjs/toolkit';
+import filterReducer from './filterSlice';
+
+const store = configureStore({
+  reducer: {
+    filter: filterReducer,
+  },
+});
+
+export default store;
+
+
+
+
+// src/components/SearchBar.js
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchQuery } from '../redux/filterSlice';
+
+const SearchBar = () => {
+  const dispatch = useDispatch();
+  const searchQuery = useSelector(state => state.filter.searchQuery);
+
+  const handleSearchChange = (e) => {
+    dispatch(setSearchQuery(e.target.value));
+  };
+
+  return (
+    <div className="search-bar">
+      <input
+        type="text"
+        value={searchQuery}
+        onChange={handleSearchChange}
+        placeholder="Search..."
+      />
+    </div>
+  );
+};
+
+export default SearchBar;
+
+
+// src/components/Filters.js
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { applyFilter } from '../redux/filterSlice';
+
+const Filters = () => {
+  const dispatch = useDispatch();
+  const selectedFilters = useSelector(state => state.filter.selectedFilters);
+
+  const handleFilterChange = (filter) => {
+    dispatch(applyFilter(filter));
+  };
+
+  return (
+    <div className="filters">
+      {['Filter 1', 'Filter 2', 'Filter 3'].map((filter) => (
+        <div key={filter} className="filter-option">
+          <input
+            type="checkbox"
+            checked={selectedFilters.includes(filter)}
+            onChange={() => handleFilterChange(filter)}
+          />
+          <label>{filter}</label>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default Filters;
+
+
+// src/components/FilteredContent.js
+import React from 'react';
+import { useSelector } from 'react-redux';
+
+const FilteredContent = () => {
+  const { searchQuery, selectedFilters } = useSelector(state => state.filter);
+  const data = [
+    { id: 1, title: 'Item 1', category: 'Filter 1' },
+    { id: 2, title: 'Item 2', category: 'Filter 2' },
+    { id: 3, title: 'Item 3', category: 'Filter 3' },
+    { id: 4, title: 'Item 4', category: 'Filter 1' },
+  ];
+
+  const filteredData = data.filter(item => {
+    const matchesSearch = item.title.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = selectedFilters.length === 0 || selectedFilters.includes(item.category);
+    return matchesSearch && matchesFilter;
+  });
+
+  return (
+    <div className="filtered-content">
+      {filteredData.length > 0 ? (
+        filteredData.map(item => (
+          <div key={item.id} className="content-item">
+            <h3>{item.title}</h3>
+            <p>{item.category}</p>
+          </div>
+        ))
+      ) : (
+        <p>No items found</p>
+      )}
+    </div>
+  );
+};
+
+export default FilteredContent;
+
+
+
+// src/App.js
+import React from 'react';
+import SearchBar from './components/SearchBar';
+import Filters from './components/Filters';
+import FilteredContent from './components/FilteredContent';
+
+function App() {
+  return (
+    <div className="App">
+      <h1>Search and Filter Example</h1>
+      <SearchBar />
+      <Filters />
+      <FilteredContent />
+    </div>
+  );
+}
+
+export default App;
+
+
+/* src/App.css */
+.App {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.search-bar input {
+  padding: 8px;
+  margin-right: 10px;
+  width: 300px;
+}
+
+.filters {
+  margin-top: 20px;
+}
+
+.filters .filter-option {
+  margin-bottom: 10px;
+}
+
+.filters input {
+  margin-right: 5px;
+}
+
+.filtered-content {
+  margin-top: 20px;
+}
+
+.content-item {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.content-item h3 {
+  margin: 0;
+}
+
+.content-item p {
+  color: #666;
+}
+
+
+
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import App from './App';
+import store from './redux/store';
+import './App.css';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
