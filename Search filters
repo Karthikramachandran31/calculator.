@@ -1,0 +1,220 @@
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  searchQuery: '',
+  selectedFilters: [],
+};
+
+const searchFilterSlice = createSlice({
+  name: 'searchFilter',
+  initialState,
+  reducers: {
+    // Action to set search query
+    setSearchQuery: (state, action) => {
+      state.searchQuery = action.payload;
+    },
+    // Action to apply filters
+    applyFilter: (state, action) => {
+      const { filterName, value } = action.payload;
+      // Check if the filter is already applied
+      const existingFilterIndex = state.selectedFilters.findIndex(
+        (filter) => filter.filterName === filterName
+      );
+      if (existingFilterIndex !== -1) {
+        // Update existing filter value
+        state.selectedFilters[existingFilterIndex].value = value;
+      } else {
+        // Add new filter
+        state.selectedFilters.push({ filterName, value });
+      }
+    },
+    // Action to clear filters
+    clearFilters: (state) => {
+      state.selectedFilters = [];
+    },
+  },
+});
+
+export const { setSearchQuery, applyFilter, clearFilters } = searchFilterSlice.actions;
+
+export default searchFilterSlice.reducer;
+
+
+
+
+import { configureStore } from '@reduxjs/toolkit';
+import searchFilterReducer from './searchFilterSlice';
+
+const store = configureStore({
+  reducer: {
+    searchFilter: searchFilterReducer,
+  },
+});
+
+export default store;
+
+
+
+
+
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSearchQuery, applyFilter, clearFilters } from './searchFilterSlice';
+
+const SearchAndFilterComponent = () => {
+  const dispatch = useDispatch();
+  const { searchQuery, selectedFilters } = useSelector((state) => state.searchFilter);
+
+  const [filterValue, setFilterValue] = useState('');
+
+  // Handle search query change
+  const handleSearchChange = (e) => {
+    dispatch(setSearchQuery(e.target.value));
+  };
+
+  // Handle filter change
+  const handleFilterChange = (e) => {
+    setFilterValue(e.target.value);
+  };
+
+  const handleApplyFilter = (filterName) => {
+    if (filterValue) {
+      dispatch(applyFilter({ filterName, value: filterValue }));
+    }
+  };
+
+  // Handle clearing filters
+  const handleClearFilters = () => {
+    dispatch(clearFilters());
+    setFilterValue('');
+  };
+
+  return (
+    <div className="search-filter-container">
+      <div className="search-bar">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Search..."
+          className="search-input"
+        />
+      </div>
+      <div className="filters">
+        <div className="filter">
+          <input
+            type="text"
+            value={filterValue}
+            onChange={handleFilterChange}
+            placeholder="Filter value"
+            className="filter-input"
+          />
+          <button onClick={() => handleApplyFilter('filterName')} className="apply-filter-btn">
+            Apply Filter
+          </button>
+        </div>
+        <button onClick={handleClearFilters} className="clear-filters-btn">
+          Clear Filters
+        </button>
+      </div>
+
+      {/* Displaying the search query and selected filters */}
+      <div className="filters-summary">
+        <h3>Search Query: {searchQuery}</h3>
+        <h3>Selected Filters:</h3>
+        <ul>
+          {selectedFilters.map((filter, index) => (
+            <li key={index}>{`${filter.filterName}: ${filter.value}`}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+export default SearchAndFilterComponent;
+
+
+
+
+
+.search-filter-container {
+  padding: 20px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  margin-bottom: 20px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filter-input {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+.apply-filter-btn,
+.clear-filters-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.apply-filter-btn:hover,
+.clear-filters-btn:hover {
+  background-color: #0056b3;
+}
+
+.filters-summary {
+  margin-top: 20px;
+}
+
+.filters-summary h3 {
+  margin: 5px 0;
+}
+
+.filters-summary ul {
+  padding-left: 20px;
+}
+
+
+
+
+
+import React from 'react';
+import { Provider } from 'react-redux';
+import store from './store';
+import SearchAndFilterComponent from './SearchAndFilterComponent';
+import './App.css';
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <div className="App">
+        <h1>Search and Filter</h1>
+        <SearchAndFilterComponent />
+      </div>
+    </Provider>
+  );
+};
+
+export default App;
