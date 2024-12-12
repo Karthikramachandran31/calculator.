@@ -1,0 +1,58 @@
+import React, { useState } from "react";
+import FormGrid from "./FormGrid"; // Import the FormGrid component
+import "./styles.css";
+
+const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState("dashboard"); // Default page is "dashboard"
+
+  // Render content dynamically based on `activeComponent`
+  const renderContent = () => {
+    switch (activeComponent) {
+      case "signup":
+        return <FormGrid />; // Render FormGrid when Task1 is clicked
+      default:
+        return <p>Page not found</p>;
+    }
+  };
+
+  return (
+    <div className="dashboard">
+      <div className="sidebar">
+        <div className="logo">Logo</div>
+        <ul className="menu">
+          <li>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                setActiveComponent("signup");
+              }}
+            >
+              Task1
+            </a>
+          </li>
+        </ul>
+      </div>
+      <header className="header">
+        <h1>Jobs</h1>
+        <div className="header-actions">
+          <button className="button">ADD</button>
+          <div className="profile">
+            <span className="username">HRManager dev</span>
+            <span className="name">HRManager</span>
+          </div>
+        </div>
+      </header>
+      <div className="main-content">{renderContent()}</div>
+      <footer className="footer">
+        <div className="footer-left">
+          Copyright © 2024 Techmango Technology Services Private Limited. All
+          Rights Reserved
+        </div>
+        <div className="footer-right">Privacy Policy</div>
+      </footer>
+    </div>
+  );
+};
+
+export default Dashboard;
