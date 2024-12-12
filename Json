@@ -1,0 +1,115 @@
+import React, { useState, useEffect } from "react";
+
+const App = () => {
+  const [users, setUsers] = useState(() => {
+    const savedUsers = localStorage.getItem("users");
+    return savedUsers ? JSON.parse(savedUsers) : [];
+  });
+
+  const [open, setOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [formValues, setFormValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    country: "India",
+  });
+  const [errors, setErrors] = useState({});
+  const [viewOnly, setViewOnly] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("users", JSON.stringify(users));
+  }, [users]);
+
+  const validate = () => {
+    let tempErrors = {};
+    tempErrors.firstName = formValues.firstName ? "" : "First Name is required";
+    tempErrors.lastName = formValues.lastName ? "" : "Last Name is required";
+    tempErrors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formValues.email)
+      ? ""
+      : "Email is invalid";
+    tempErrors.phone = /^[0-9]{10}$/.test(formValues.phone)
+      ? ""
+      : "Phone must be 10 digits";
+    tempErrors.address = formValues.address ? "" : "Address is required";
+    tempErrors.city = formValues.city ? "" : "City is required";
+    tempErrors.state = formValues.state ? "" : "State is required";
+    tempErrors.country = formValues.country ? "" : "Country is required";
+    setErrors(tempErrors);
+    return Object.values(tempErrors).every((x) => x === "");
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  const handleAddEditUser = () => {
+    if (validate()) {
+      if (isEditMode) {
+        setUsers(
+          users.map((user, index) =>
+            index === currentUser ? { ...formValues } : user
+          )
+        );
+      } else {
+        setUsers([...users, { ...formValues }]);
+      }
+      handleClose();
+    }
+  };
+
+  const handleOpen = (user = null, index = null, isViewMode = false) => {
+    setIsEditMode(!!user && !isViewMode);
+    setViewOnly(isViewMode);
+    setCurrentUser(index);
+    setFormValues(
+      user || {
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        address: "",
+        city: "",
+        state: "",
+        country: "India",
+      }
+    );
+    setErrors({});
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setCurrentUser(null);
+    setFormValues({
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      address: "",
+      city: "",
+      state: "",
+      country: "India",
+    });
+    setErrors({});
+  };
+
+  const handleDelete = (index) => {
+    setUsers(users.filter((_, i) => i !== index));
+  };
+
+  return (
+    // ... (rest of your JSX remains the same)
+  );
+};
+
+export default App;
