@@ -1,0 +1,40 @@
+import React from "react";
+import { Grid, Paper, Typography, Box } from "@mui/material";
+
+const MaterialUIGrid = () => {
+  return (
+    <Box sx={{ padding: 2 }}>
+      <Typography variant="h4" gutterBottom>
+        Material-UI Grid Example
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={4}>
+          <Paper elevation={3} sx={{ padding: 2, textAlign: "center" }}>
+            <Typography variant="h6">Grid Item 1</Typography>
+            <Typography>Content for the first grid item.</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Paper elevation={3} sx={{ padding: 2, textAlign: "center" }}>
+            <Typography variant="h6">Grid Item 2</Typography>
+            <Typography>Content for the second grid item.</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Paper elevation={3} sx={{ padding: 2, textAlign: "center" }}>
+            <Typography variant="h6">Grid Item 3</Typography>
+            <Typography>Content for the third grid item.</Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} sm={6} md={4}>
+          <Paper elevation={3} sx={{ padding: 2, textAlign: "center" }}>
+            <Typography variant="h6">Grid Item 4</Typography>
+            <Typography>Content for the fourth grid item.</Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+export default MaterialUIGrid;
